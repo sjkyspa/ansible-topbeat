@@ -1,9 +1,9 @@
 ---
-- name: Download topbeat 1.0.0
-  get_url:
-    url: "https://download.elastic.co/beats/topbeat/topbeat_1.0.0_amd64.deb"
-    dest: "/tmp"
+- name: Add beats key
+  apt_key: id=D88E42B4 keyserver=pgp.mit.edu state=present
 
-- name: Install topbeat 1.0.0
-  apt:
-    deb: "/tmp/topbeat_1.0.0_amd64.deb"
+- name: Add beats repo
+  apt_repository: repo='deb {{ beats_repository_url }} stable main' state=present
+
+- name: Install topbeat
+  apt: pkg={{ topbeat_package }} state=present update_cache=yes
